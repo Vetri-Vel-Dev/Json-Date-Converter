@@ -7,14 +7,12 @@ import java.util.regex.Pattern;
 
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.json_date_converter.common.DateRegexFormationByDatePatterns;
 import com.spring.json_date_converter.common.Utils;
 
 public class ConvertDateByPattern {
 
 	Utils utils;
-
-	private ObjectMapper mapper = new ObjectMapper();
 
 	private final Pattern JSON_OBJECT_PATTERN = Pattern.compile("\"([^\"]+)\"\\s*:\\s*\\{");
 
@@ -32,12 +30,11 @@ public class ConvertDateByPattern {
 			Map<String, JSONObject> jsonKeys = new LinkedHashMap<>();
 
 			extractJsonObjects(jsonObject, "", jsonKeys);
+//			for (String path : jsonKeys.keySet()) {
+				updateJsonValues(jsonObject);
+//			}
 
-			for (String path : jsonKeys.keySet()) {
-				updateJsonValue(jsonObject, path);
-			}
-
-			return mapper.writeValueAsString(jsonKeys);
+			return jsonObject.toString();
 		} catch (Exception e) {
 			return e.toString();
 		}
@@ -57,21 +54,38 @@ public class ConvertDateByPattern {
 	}
 
 	public void updateJsonValue(JSONObject jsonObject, String jsonPath) {
-		String[] keys = jsonPath.split("\\.");
+		System.err.println(jsonPath);
+		String[] keys = jsonPath.split(".");
 		JSONObject currentObject = jsonObject;
-
 		for (int i = 0; i < keys.length - 1; i++) {
 			String key = keys[i];
-
 			currentObject = currentObject.getJSONObject(key);
 		}
 		Map<String, String> datestr = utils.extractDateFields(currentObject.toString());
 		for (String datestr1 : datestr.keySet()) {
 			if (!currentObject.optString(datestr1).isBlank()) {
+				System.err.println(datestr1);
 				currentObject.put(datestr1, utils.getDateString(currentObject.optString(datestr1)));
 			}
 
 		}
 	}
+	public void updateJsonValues(JSONObject jsonObject) {
+	    for (String key : jsonObject.keySet()) {
+	        Object value = jsonObject.get(key);
+
+	        if (value instanceof String) {
+	            String strValue = (String) value;
+	            for (String regex : DateRegexFormationByDatePatterns.formatToRegexMap.values()) {
+	                if (strValue.matches(regex)) {
+	                    jsonObject.put(key, utils.getDateString(strValue)); // Convert the date format
+	                }
+	            }
+	        } else if (value instanceof JSONObject) {
+	            updateJsonValues((JSONObject) value); // Recursive call for nested JSON
+	        } 
+	    }
+	}
+
 
 }
