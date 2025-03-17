@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 23
+Implementation-Title: json-date-converter
+Implementation-Version: 0.0.1
+Main-Class: com.spring.springtestwithnodatabaseconnectovity.datecheck.Js
+ onObjectFinder
+Created-By: Maven Integration for Eclipse
+
