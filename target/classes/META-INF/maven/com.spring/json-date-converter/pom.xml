@@ -11,17 +11,17 @@
 	</parent>
 	<groupId>com.spring</groupId>
 	<artifactId>json-date-converter</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.4</version>
 	<name>json-date-converter</name>
 	<description>A utility to convert date formats dynamically in JSON</description>
 	<url />
-	<distributionManagement>
+	<repositories>
 		<repository>
 			<id>github</id>
 			<url>
 				https://maven.pkg.github.com/Vetri-Vel-Dev/Json-Date-Converter</url>
 		</repository>
-	</distributionManagement>
+	</repositories>
 	<licenses>
 		<license />
 	</licenses>

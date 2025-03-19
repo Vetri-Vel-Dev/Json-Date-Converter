@@ -38,7 +38,7 @@ public class Utils {
 			if (dateString.isBlank()) {
 				return "";
 			} else {
-				Date date = DateUtils.parseDate(dateString, formats);
+				Date date = DateUtils.parseDateStrictly(dateString, formats);
 				return new SimpleDateFormat(TARGET_FORMAT).format(date);
 			}
 		} catch (ParseException e) {
