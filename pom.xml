@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.spring</groupId>
 	<artifactId>json-date-converter</artifactId>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<name>json-date-converter</name>
 	<description>A utility to convert date formats dynamically in JSON</description>
 	<url />
